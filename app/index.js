@@ -1,9 +1,12 @@
 import path from 'path';
-import init from './lib/init';
+
 import exec from './util/exec';
-import signAndroid from './lib/signAndroid';
+import init from './lib/init';
 import run from './lib/run';
-import upgrade from './bin/upgrade';
+import upgrade from './lib/upgrade';
+
+import signAndroid from './util/signAndroid';
+
 import {name, version} from '../package.json';
 
 const [, , cmd, app] = process.argv;

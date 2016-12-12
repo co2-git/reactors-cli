@@ -5,6 +5,10 @@ reactors command line interface
 
 # Install
 
+```bash
+sudo npm install --global react-native-cli electron-prebuilt reactors-cli yarn
+```
+
 # Usage
 
 ```bash

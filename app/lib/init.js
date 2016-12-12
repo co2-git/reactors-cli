@@ -1,28 +1,25 @@
 import 'babel-polyfill';
 import path from 'path';
-import transform from '../util/transform';
-import changeJSON from '../util/changeJSON';
-import npmInstall from '../util/npmInstall';
-import write from '../util/write';
-import read from '../util/read';
+
 import copy from '../util/copy';
+import changeJSON from '../util/changeJSON';
+import exec from '../util/exec';
+import read from '../util/read';
+import transform from '../util/transform';
+import write from '../util/write';
+import yarnInstall from '../util/yarnInstall';
+
 import logger from './logger';
+
 import pkg from '../../package.json';
 
-export default function init(app: string, dest: string): Promise<void> {
-  const _src = path.resolve(__dirname, '../../');
-  const _dest = dest || process.cwd();
+export default function init(app: string, context: string): Promise<void> {
+  const TEMPLATES = path.resolve(__dirname, '../../templates');
+  const CONTAINER = context || process.cwd();
+  const APP = path.join(CONTAINER, app);
 
   function transformer(source: string): string {
     return source.replace(/\{app\}/g, app);
-  }
-
-  function getSourceFilePath(file: string): string {
-    return path.join(_src, file);
-  }
-
-  function getDestFilePath(file: string): string {
-    return path.join(_dest, app, file);
   }
 
   return new Promise(async (resolve, reject) => {
@@ -44,79 +41,55 @@ export default function init(app: string, dest: string): Promise<void> {
         'index.electron.js',
       ];
 
-      // await logger('Installing React Native');
-      // await exec(`react-native init ${app}`, {cwd: _dest});
-      // await logger.ok('React Native installed');
-      //
-      // await logger('Create app directories');
-      // await exec(`mkdir ${app}/app/`, {cwd: _dest});
-      // await exec(`mkdir ${app}/desktop/`, {cwd: _dest});
+      await logger('Installing React Native');
+      await exec(`react-native init ${app}`, {cwd: CONTAINER});
+      await logger.ok('React Native installed');
+
+      await logger('Create app directories');
+      await exec('mkdir app', {cwd: APP});
+      await exec('mkdir desktop', {cwd: APP});
 
       await logger('Install templates');
-      console.log({templatesToTransform});
       for (const template of templatesToTransform) {
-        console.log({template});
         if (typeof template === 'string') {
-          try {
-            await transform(
-              getSourceFilePath(`templates/${template}`),
-              transformer,
-              getDestFilePath(template),
-            );
-            console.log({template, ok: true});
-          } catch (error) {
-            console.log('!!!');
-          }
-        } else if (typeof template === 'object') {
-          try {
-            for (const local in template) {
-              console.log({local, template: template[local]});
-              if (template[local]) {
-                try {
-                  await transform(
-                    getSourceFilePath(`templates/${local}`),
-                    transformer,
-                    getDestFilePath(template[local]),
-                  );
-                  console.log({local, template: template[local], ok: true});
-                } catch (error) {
-                  console.log('oh my god!');
-                }
-              }
-            }
-          } catch (error) {
-            console.log('$$$');
-          }
-        }
-      }
-      for (const template of templatesToCopy) {
-        if (typeof template === 'string') {
-          try {
-            await copy(
-              getSourceFilePath(`templates/${template}`),
-              getDestFilePath(template),
-            );
-          } catch (error) {
-            console.log('%%%');
-          }
+          await transform(
+            path.join(TEMPLATES, template),
+            transformer,
+            path.join(APP, template),
+          );
         } else if (typeof template === 'object') {
           for (const local in template) {
             if (template[local]) {
-              try {
-                await copy(
-                  getSourceFilePath(`templates/${local}`),
-                  getDestFilePath(template[local]),
-                );
-              } catch (error) {
-                console.log('===');
-              }
+              await transform(
+                path.join(TEMPLATES, local),
+                transformer,
+                path.join(APP, template[local]),
+              );
+            }
+          }
+        }
+      }
+
+      for (const template of templatesToCopy) {
+        if (typeof template === 'string') {
+          await copy(
+            path.join(TEMPLATES, template),
+            path.join(APP, template),
+          );
+        } else if (typeof template === 'object') {
+          for (const local in template) {
+            if (template[local]) {
+              await copy(
+                path.join(TEMPLATES, local),
+                path.join(APP, template[local]),
+              );
             }
           }
         }
       }
 
       await logger('Installing npm dependencies');
-      await npmInstall(path.join(_dest, app),
+      await yarnInstall(APP,
         'reactors',
         'react-dom',
         'babel-loader',
@@ -129,7 +102,7 @@ export default function init(app: string, dest: string): Promise<void> {
 
       await logger('Updating package.json');
       await changeJSON(
-        getDestFilePath('package.json'),
+        path.join(APP, 'package.json'),
         (json) => {
           json.main = 'index.desktop.js';
         },
@@ -137,14 +110,14 @@ export default function init(app: string, dest: string): Promise<void> {
 
       await logger('create reactors.json');
       await write(
-        getDestFilePath('reactors.json'),
+        path.join(APP, 'reactors.json'),
         JSON.stringify({version: pkg.version}),
       );
 
       await logger('Add bundles to gitignore');
-      const gitignore = await read(getDestFilePath('.gitignore'));
+      const gitignore = await read(path.join(APP, '.gitignore'));
       await write(
-        getDestFilePath('.gitignore'),
+        path.join(APP, '.gitignore'),
         `${gitignore}
 
 # Reactors
