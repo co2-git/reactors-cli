@@ -1,0 +1,56 @@
+// @flow
+
+type $proguardFiles = 'getDefaultProguardFile("proguard-android.txt")'
+  | 'proguard-rules.pro';
+
+type $arch = 'armeabi-v7a' | 'x86';
+
+type $minifyEnabled = 'enableProguardInReleaseBuilds';
+
+declare type $reactorsJSON = {
+  name: string,
+  version: string,
+  description: string,
+  android: {
+    gradle: {
+      plugins: string[],
+      imports: string[],
+      android: {
+        buildToolsVersion: string,
+        buildTypes: {
+          release: {
+            minifyEnabled: $minifyEnabled,
+            proguardFiles: $proguardFiles[],
+          },
+        },
+        compileSdkVersion: number,
+        defaultConfig: {
+          applicationId: string,
+          minSdkVersion: number,
+          targetSdkVersion: number,
+          versionCode: number,
+          versionName: string,
+          ndk: {
+            abiFilters: $arch[],
+          },
+        },
+        splits: {
+          abi: {
+            enable: boolean,
+            exclude: string[],
+            include: string[],
+            universalApk: boolean,
+            reset: boolean,
+          }
+        },
+        iterate: {
+          over: ,
+        },
+      },
+    },
+    release: {
+      key: generate-android-app-prod,
+      password: generate-android-app-prod
+    }
+  }
+};
