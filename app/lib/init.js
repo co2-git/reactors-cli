@@ -25,29 +25,35 @@ export default function init(app: string, context: string): Promise<void> {
   return new Promise(async (resolve, reject) => {
     try {
       const templatesToTransform = [
+        'app/App.js',
+        {['index.desktop.html']: 'desktop/index.html'},
+        'index.desktop.js',
+        'index.dom.js',
+        'index.html',
         {'index.mobile.js': 'index.ios.js'},
         {'index.mobile.js': 'index.android.js'},
-        'index.html',
         'index.web.js',
-        'index.dom.js',
-        'index.desktop.js',
-        'app/App.js',
-        'webpack.config.js',
-        {['index.desktop.html']: 'desktop/index.html'},
         'README.md',
+        'webpack.config.js',
       ];
 
       const templatesToCopy = [
         'index.electron.js',
       ];
 
+      //
+
       await logger('Installing React Native');
       await exec(`react-native init ${app}`, {cwd: CONTAINER});
       await logger.ok('React Native installed');
 
+      //
+
       await logger('Create app directories');
       await exec('mkdir app', {cwd: APP});
       await exec('mkdir desktop', {cwd: APP});
+
+      //
 
       await logger('Install templates');
       for (const template of templatesToTransform) {
@@ -70,6 +76,8 @@ export default function init(app: string, context: string): Promise<void> {
         }
       }
 
+      //
+
       for (const template of templatesToCopy) {
         if (typeof template === 'string') {
           await copy(
@@ -88,6 +96,8 @@ export default function init(app: string, context: string): Promise<void> {
         }
       }
 
+      //
+
       await logger('Installing npm dependencies');
       await yarnInstall(APP,
         'reactors',
@@ -100,6 +110,8 @@ export default function init(app: string, context: string): Promise<void> {
         'ignore-loader',
       );
 
+      //
+
       await logger('Updating package.json');
       await changeJSON(
         path.join(APP, 'package.json'),
@@ -108,11 +120,15 @@ export default function init(app: string, context: string): Promise<void> {
         },
       );
 
+      //
+
       await logger('create reactors.json');
       await write(
         path.join(APP, 'reactors.json'),
         JSON.stringify({version: pkg.version}),
       );
+
+      //
 
       await logger('Add bundles to gitignore');
       const gitignore = await read(path.join(APP, '.gitignore'));
