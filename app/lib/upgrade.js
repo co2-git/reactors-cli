@@ -1,9 +1,13 @@
 import path from 'path';
 import semver from 'semver';
-import read from './read';
-import write from './write';
-import changeJSON from './changeJSON';
+
+import changeJSON from '../util/changeJSON';
+import exec from '../util/exec';
+import read from '../util/read';
+import write from '../util/write';
+
 import getAppFile from './getAppFile';
+
 import v0_1_4 from '../migrations/v0.1.4';
 import v0_1_9 from '../migrations/v0.1.9';
 import v0_1_11 from '../migrations/v0.1.11';
@@ -11,6 +15,7 @@ import v0_1_15 from '../migrations/v0.1.15';
 import v0_1_16 from '../migrations/v0.1.16';
 import v0_1_18 from '../migrations/v0.1.18';
 import v0_1_20 from '../migrations/v0.1.20';
+
 import pkg from '../../package.json';
 
 const migrations = [
@@ -35,6 +40,14 @@ function getFile(file) {
 
 export default () => new Promise(async (resolve, reject) => {
   try {
+    console.log('Updating npm dependencies');
+    await exec('npm install');
+
+    console.log('Upgrading react-native');
+    await exec('react-native upgrade');
+
+    console.log('Upgrading reactors');
+
     let reactors;
     let first_time = false;
     try {

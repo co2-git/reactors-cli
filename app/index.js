@@ -1,8 +1,8 @@
 import path from 'path';
 import init from './lib/init';
-import exec from './lib/exec';
+import exec from './util/exec';
 import signAndroid from './lib/signAndroid';
-import run from './bin/run';
+import run from './lib/run';
 import upgrade from './bin/upgrade';
 import {name, version} from '../package.json';
 

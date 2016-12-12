@@ -1,5 +1,5 @@
 import path from 'path';
-import read from './read';
+import read from '../util/read';
 
 export default function getReactorsConfig() {
   return new Promise(async (resolve, reject) => {

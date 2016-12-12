@@ -1,13 +1,12 @@
 import 'babel-polyfill';
 import path from 'path';
-import exec from '../lib/exec';
-import transform from '../lib/transform';
-import changeJSON from '../lib/changeJSON';
-import npmInstall from '../lib/npmInstall';
-import write from '../lib/write';
-import read from '../lib/read';
-import copy from '../lib/copy';
-import logger from '../lib/logger';
+import transform from '../util/transform';
+import changeJSON from '../util/changeJSON';
+import npmInstall from '../util/npmInstall';
+import write from '../util/write';
+import read from '../util/read';
+import copy from '../util/copy';
+import logger from './logger';
 import pkg from '../../package.json';
 
 export default function init(app: string, dest: string): Promise<void> {

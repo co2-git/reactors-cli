@@ -1,8 +1,8 @@
 import 'babel-polyfill';
 import path from 'path';
 import logger from '../lib/logger';
-import copy from '../lib/copy';
-import changeJSON from '../lib/changeJSON';
+import copy from '../util/copy';
+import changeJSON from '../util/changeJSON';
 import getAppFile from '../lib/getAppFile';
 
 function getTemplate(file) {

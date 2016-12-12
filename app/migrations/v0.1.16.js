@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import path from 'path';
 import logger from '../lib/logger';
-import transform from '../lib/transform';
+import transform from '../util/transform';
 import getAppFile from '../lib/getAppFile';
 
 function getTemplate(file) {
