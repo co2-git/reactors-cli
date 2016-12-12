@@ -9,7 +9,7 @@ import signAndroid from './util/signAndroid';
 
 import {name, version} from '../package.json';
 
-const [, , cmd, app] = process.argv;
+const [, , cmd, arg1] = process.argv;
 
 function cwd(...dirs) {
   return path.join(process.cwd(), ...dirs);
@@ -27,6 +27,8 @@ async function reactors() {
   switch (cmd) {
   case 'init': {
     try {
+      const app = arg1;
+
       console.log();
       console.log('Creating Reactors app', app);
       console.log();
@@ -40,7 +42,8 @@ async function reactors() {
     break;
 
   case 'run': {
-    run(app);
+    const platform = arg1;
+    run(platform);
   }
     break;
 
@@ -55,7 +58,8 @@ async function reactors() {
     break;
 
   case 'android': {
-    switch (app) {
+    const androidCommand = arg1;
+    switch (androidCommand) {
     case 'debug': {
       try {
         await exec('./gradlew clean assembleDebug', {cwd: PATH_TO_ANDROID});
