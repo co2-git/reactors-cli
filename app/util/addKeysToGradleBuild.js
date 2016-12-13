@@ -2,12 +2,18 @@ import path from 'path';
 import read from './read';
 import write from './write';
 
-export default function parseGradleBuildFileToJSON(name) {
+export default function addKeysToGradleBuild(name) {
   return new Promise(async (resolve, reject) => {
     try {
       let source = await read(
         path.join(process.cwd(), 'android/app/build.gradle'),
       );
+
+      if (/RELEASE_STORE_FILE/.test(source)) {
+        console.log('Keys already added to Gradle Build for release');
+        resolve();
+        return;
+      }
 
       const lines = source.split(/\n/);
       const newLines = [];
@@ -106,10 +112,14 @@ export default function parseGradleBuildFileToJSON(name) {
         newLines.push(line);
       }
 
-      return write(
+      await write(
         path.join(process.cwd(), 'android/app/build.gradle'),
         newLines.join('\n'),
       );
+
+      console.log('Keys added to gradle build');
+
+      resolve();
     } catch (error) {
       reject(error);
     }
