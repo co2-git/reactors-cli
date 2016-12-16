@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ListView,
   Image,
   Link,
+  ListView,
+  StyleSheet,
+  Text,
+  View,
 } from 'reactors';
 
 export default class App extends Component {

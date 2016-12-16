@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default function (file) {
+export default function read(file) {
   return new Promise((resolve, reject) => {
     let source = '';
     fs.createReadStream(file)
@@ -11,6 +11,5 @@ export default function (file) {
       .on('end', () => {
         resolve(source);
       });
-
   });
 }

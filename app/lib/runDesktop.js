@@ -3,7 +3,8 @@ import exec from '../util/exec';
 export default function runDesktop() {
   return new Promise(async (resolve, reject) => {
     try {
-      await exec('electron index.electron.js');
+      exec('npm run babel', {cwd: process.cwd() + '/desktop'});
+      exec('electron desktop');
       resolve();
     } catch (error) {
       reject(error);

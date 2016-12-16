@@ -1,4 +1,5 @@
 import path from 'path';
+import colors from 'colors';
 
 import exec from './util/exec';
 import init from './lib/init';
@@ -19,7 +20,8 @@ const PATH_TO_ANDROID = cwd('android');
 const PATH_TO_APKS = path.join(PATH_TO_ANDROID, 'app/build/outputs/apks');
 
 function quit(error) {
-  console.log(error.stack);
+  console.log(colors.red.bold('Error'));
+  console.log(colors.yellow(error.stack));
   process.exit(8);
 }
 

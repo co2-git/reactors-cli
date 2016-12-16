@@ -19,7 +19,7 @@ export default function run(platform) {
     break;
 
   case 'desktop': {
-    bundle('desktop');
+    // bundle('desktop');
     setTimeout(runDesktop, 5000);
   }
     break;
