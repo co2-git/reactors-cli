@@ -9,6 +9,29 @@
     "babel:watch": "babel --watch --out-dir dist/ app",
     "eslint": "eslint app"
   },
+  "keywords": [
+    "reactors",
+    "react",
+    "react-native",
+    "app",
+    "mobile",
+    "web",
+    "android",
+    "ios",
+    "mac osx",
+    "window",
+    "linux",
+    "ubuntu",
+    "desktop",
+    "electron",
+    "native",
+    "hybrid",
+    "awesome"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/co2-git/reactors-git"
+  },
   "bin": {
     "reactors": "dist/index-cli.js"
   },

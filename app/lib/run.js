@@ -13,7 +13,7 @@ export default function run(platform) {
     break;
 
   case 'web': {
-    bundle('web');
+    // bundle('web');
     setTimeout(runWeb, 5000);
   }
     break;

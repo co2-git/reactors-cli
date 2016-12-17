@@ -33,6 +33,11 @@ export default function init(app: string, context: string): Promise<void> {
       );
 
       await run(
+        'Create dist directory',
+        async () => await exec('mkdir dist', {cwd: APP}),
+      );
+
+      await run(
         'Create README',
         async () => await transform(
           path.join(TEMPLATES, 'README.md'),
@@ -46,6 +51,48 @@ export default function init(app: string, context: string): Promise<void> {
         async () => await write(
           path.join(APP, 'reactors.json'),
           JSON.stringify({version: pkg.version}),
+        ),
+      );
+
+      await run(
+        'Create desktop package.json',
+        async () => await write(
+          path.join(APP, 'package.json'),
+          JSON.stringify({
+            name: app,
+            version: '0.0.0',
+            scripts: {
+              babelDesktop: 'babel ' +
+                '--presets=react,electron ' +
+                '--out-dir dist/desktop/ ' +
+                'app',
+              babelDesktopWatch: 'babel ' +
+                '--watch ' +
+                '--presets=react,electron ' +
+                '--out-dir dist/desktop/ ' +
+                'app'
+            }
+          }, null, 2),
+        ),
+      );
+
+      await run(
+        'Init yarn',
+        async () => await exec('yarn init --yes', {cwd: APP}),
+      );
+
+      await run(
+        'Install app yarn',
+        async () => await exec(
+          'yarn add ' + [
+            'babel-cli',
+            'babel-preset-electron',
+            'babel-preset-react',
+            'react-dom',
+            'react',
+            'reactors',
+          ].join(' '),
+          {cwd: APP}
         ),
       );
 

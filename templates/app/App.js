@@ -38,7 +38,8 @@ export default class App extends Component {
       },
       {
         title: 'Windows',
-        image: 'https://apps.education.ucsb.edu/w/images/thumb/a/a7/Windows_vista_icon.png/40px-Windows_vista_icon.png',
+        image: 'https://apps.education.ucsb.edu/w/images/thumb/a/a7/' +
+          'Windows_vista_icon.png/40px-Windows_vista_icon.png',
         link: 'http://www.microsoft.com/en-us/windows'
       }
     ];
@@ -72,28 +73,28 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
-  view: {
-    marginTop: 42,
-  },
   h1: {
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  text: {
-    margin: 10,
-  },
   image: {
     width: 40,
     height: 40,
   },
-  platformRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    padding: 10,
-  },
   link: {
     color: 'blue',
-  }
+  },
+  platformRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+  },
+  text: {
+    margin: 10,
+  },
+  view: {
+    marginTop: 42,
+  },
 });

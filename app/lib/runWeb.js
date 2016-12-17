@@ -1,15 +1,13 @@
-import os from 'os';
+import path from 'path';
 import exec from '../util/exec';
 
 export default function runWeb() {
-  switch (os.platform()) {
-  case 'darwin':
-    exec('open index.html');
-    break;
-  case 'linux':
-    exec('x-www-browser index.html');
-    break;
-  default:
-    throw new Error('Platform not supported: ' + os.platform());
-  }
+  return new Promise(async (resolve, reject) => {
+    try {
+      await exec('webpack', {cwd: path.join(process.cwd(), 'web')});
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
 }

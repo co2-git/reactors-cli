@@ -45,35 +45,6 @@ export default function initDesktop({
         ),
       );
 
-      await run(
-        'Create desktop package',
-        async () => await transform(
-          path.join(TEMPLATES, 'desktop/package.json'),
-          transformTemplate.bind({app}),
-          path.join(APP, 'desktop/package.json'),
-        ),
-      );
-
-      await run(
-        'Init desktop yarn',
-        async () => await exec(
-          'yarn init --yes',
-          {cwd: path.join(APP, 'desktop')}
-        ),
-      );
-
-      await run(
-        'Install desktop yarn',
-        async () => await exec(
-          'yarn add ' + [
-            'react-dom',
-            'react',
-            'reactors',
-          ].join(' '),
-          {cwd: path.join(APP, 'desktop')}
-        ),
-      );
-
       resolve();
     } catch (error) {
       reject(error);
