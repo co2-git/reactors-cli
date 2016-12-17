@@ -43,6 +43,7 @@ export default function initWeb({
             'babel-preset-electron',
             'babel-preset-react',
             'react',
+            'reactors',
           ].join(' '),
           {cwd: path.join(APP, 'app')}
         ),

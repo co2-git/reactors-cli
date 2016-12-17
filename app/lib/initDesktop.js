@@ -66,8 +66,9 @@ export default function initDesktop({
         'Install desktop yarn',
         async () => await exec(
           'yarn add ' + [
-            'react',
             'react-dom',
+            'react',
+            'reactors',
           ].join(' '),
           {cwd: path.join(APP, 'desktop')}
         ),
