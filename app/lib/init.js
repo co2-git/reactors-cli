@@ -50,7 +50,10 @@ export default function init(app: string, context: string): Promise<void> {
         'Create reactors.json',
         async () => await write(
           path.join(APP, 'reactors.json'),
-          JSON.stringify({version: pkg.version}),
+          JSON.stringify({
+            name: app,
+            version: pkg.version,
+          }),
         ),
       );
 
@@ -64,12 +67,12 @@ export default function init(app: string, context: string): Promise<void> {
             scripts: {
               babelDesktop: 'babel ' +
                 '--presets=react,electron ' +
-                '--out-dir dist/desktop/ ' +
+                '--out-dir desktop/dist ' +
                 'app',
               babelDesktopWatch: 'babel ' +
                 '--watch ' +
                 '--presets=react,electron ' +
-                '--out-dir dist/desktop/ ' +
+                '--out-dir desktop/dist ' +
                 'app'
             }
           }, null, 2),

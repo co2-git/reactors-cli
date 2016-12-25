@@ -16,17 +16,19 @@ sudo npm install --global react-native-cli electron-prebuilt reactors-cli yarn
 reactors init MyApp
 
 # run app
-reactors run desktop # run desktop
-reactors run web # run web
-reactors run ios # run ios
 reactors run android # run android
+reactors run desktop # run desktop
+reactors run ios # run ios
+reactors run web # run web
 
 # upgrade app
 reactors upgrade
 
+# build app
+reactors build android # generate APK
+reactors build osx # generate desktop app
+
 # Android
-reactors android debug # generate dev APK
-reactors android release # generate prod APK
-reactors android sign # create signed keys
-reactors android install # install on current device
+reactors sign android # create signed keys
+reactors install android # install on current device
 ```

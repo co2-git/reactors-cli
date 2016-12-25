@@ -4,10 +4,11 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "babel": "babel --out-dir dist/ app",
     "babel:watch": "babel --watch --out-dir dist/ app",
-    "eslint": "eslint app"
+    "bin": "node dist/index-cli",
+    "eslint": "eslint app",
+    "test": "mocha dist/test/*"
   },
   "keywords": [
     "reactors",
@@ -45,7 +46,9 @@
     "babel-preset-stage-0": "^6.16.0",
     "eslint": "^3.11.1",
     "eslint-plugin-flowtype": "^2.29.1",
-    "flow-bin": "^0.36.0"
+    "flow-bin": "^0.36.0",
+    "mocha": "^3.2.0",
+    "should": "^11.1.2"
   },
   "babel": {
     "presets": [
@@ -57,6 +60,7 @@
     ]
   },
   "dependencies": {
-    "colors": "^1.1.2"
+    "colors": "^1.1.2",
+    "electron-packager": "^8.4.0"
   }
 }

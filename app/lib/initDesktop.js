@@ -1,9 +1,9 @@
 import path from 'path';
 
-import changeJSON from '../util/changeJSON';
 import copy from '../util/copy';
 import exec from '../util/exec';
 import transform from '../util/transform';
+import write from '../util/write';
 
 import run from './microRun';
 import transformTemplate from './transformTemplate';
@@ -18,6 +18,14 @@ export default function initDesktop({
       await run(
         'Create desktop directory',
         async () => await exec('mkdir desktop', {cwd: APP}),
+      );
+
+      await run(
+        'Create desktop package.json',
+        async () => await write(
+          path.join(APP, 'desktop/package.json'),
+          JSON.stringify({name: app, version: '0.0.0'}, null, 2),
+        ),
       );
 
       await run(

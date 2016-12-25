@@ -1,6 +1,6 @@
 import {spawn} from 'child_process';
 
-export default function (cmd, options = {}) {
+export default function exec (cmd, options = {}) {
   return new Promise((resolve, reject) => {
     const [entry, ...bits] = cmd.split(/\s+/);
     const ps = spawn(entry, bits, options);

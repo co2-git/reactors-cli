@@ -1,11 +1,13 @@
 import path from 'path';
 import colors from 'colors';
+import packager from 'electron-packager';
 
 import exec from './util/exec';
 import init from './lib/init';
 import run from './lib/run';
 import upgrade from './lib/upgrade';
 
+import read from './util/read';
 import signAndroid from './util/signAndroid';
 
 import {name, version} from '../package.json';
@@ -19,6 +21,8 @@ function cwd(...dirs) {
 const PATH_TO_ANDROID = cwd('android');
 const PATH_TO_APKS = path.join(PATH_TO_ANDROID, 'app/build/outputs/apks');
 
+const ELECTRON_VERSION = '1.4.13';
+
 function quit(error) {
   console.log(colors.red.bold('Error'));
   console.log(colors.yellow(error.stack));
@@ -27,6 +31,58 @@ function quit(error) {
 
 async function reactors() {
   switch (cmd) {
+
+  case 'build': {
+    switch (arg1) {
+
+    case 'android': {
+      try {
+        await exec('./gradlew clean assembleRelease', {cwd: PATH_TO_ANDROID});
+        console.log(`Your APK is ready: ${PATH_TO_APKS}/apk-release.apk`);
+      } catch (error) {
+        quit(error);
+      }
+    } break;
+
+    case 'osx': {
+      try {
+        const cmds = [
+          'npm run babelDesktop',
+          'cp -r node_modules/ desktop/node_modules/',
+          `electron-packager desktop lexouxou \
+            --platform=darwin \
+            --version=${ELECTRON_VERSION}`,
+          'rm -rf desktop/node_modules',
+        ];
+        for (const cmd of cmds) {
+          await exec(cmd);
+        }
+        // const options = {
+        //   dir: path.join(process.cwd(), 'desktop'),
+        //   arch: 'all',
+        //   version: '1.4.12',
+        //   name: 'mongodaemon',
+        //   out: path.join(process.cwd(), 'dist/osx'),
+        //   platform: 'darwin',
+        //   prune: false,
+        //   overwrite: true,
+        // };
+        // packager(options, async (err, appPaths) => {
+        //   if (err) {
+        //     return quit(err);
+        //   }
+        //   console.log(appPaths);
+        //   await exec('rm -rf desktop/node_modules');
+        //   exec(`open ${appPaths[0]}/mongodaemon.app`);
+        // });
+      } catch (error) {
+        quit(error);
+      }
+    } break;
+
+    }
+  } break;
+
   case 'init': {
     try {
       const app = arg1;
@@ -40,14 +96,40 @@ async function reactors() {
     } catch (error) {
       quit(error);
     }
-  }
-    break;
+  } break;
+
+  case 'install': {
+    switch (arg1) {
+
+    case 'android': {
+      try {
+        await exec(`adb install ${PATH_TO_APKS}/apk-release.apk`);
+      } catch (error) {
+        quit(error);
+      }
+    } break;
+
+    }
+  } break;
 
   case 'run': {
     const platform = arg1;
     run(platform);
-  }
-    break;
+  } break;
+
+  case 'sign': {
+    switch (arg1) {
+
+    case 'android': {
+      try {
+        await signAndroid();
+      } catch (error) {
+        quit(error);
+      }
+    } break;
+
+    }
+  } break;
 
   case 'upgrade': {
     try {
@@ -56,58 +138,13 @@ async function reactors() {
     } catch (error) {
       quit(error);
     }
-  }
-    break;
-
-  case 'android': {
-    const androidCommand = arg1;
-    switch (androidCommand) {
-    case 'debug': {
-      try {
-        await exec('./gradlew clean assembleDebug', {cwd: PATH_TO_ANDROID});
-        console.log(`Your APK is ready: ${PATH_TO_APKS}/apk-debug.apk`);
-      } catch (error) {
-        quit(error);
-      }
-    }
-      break;
-
-    case 'release': {
-      try {
-        await exec('./gradlew clean assembleRelease', {cwd: PATH_TO_ANDROID});
-        console.log(`Your APK is ready: ${PATH_TO_APKS}/apk-release.apk`);
-      } catch (error) {
-        quit(error);
-      }
-    }
-      break;
-
-    case 'install': {
-      try {
-        await exec(`adb install ${PATH_TO_APKS}/apk-release.apk`);
-      } catch (error) {
-        quit(error);
-      }
-    }
-      break;
-
-    case 'sign': {
-      try {
-        await signAndroid();
-      } catch (error) {
-        quit(error);
-      }
-    }
-      break;
-    }
-  }
-    break;
+  } break;
 
   default: {
     try {
       console.log(name, version);
       console.log();
-      await exec('cat ../README.md', {cwd: __dirname});
+      console.log(await read(path.resolve(__dirname, '../README.md')));
     } catch (error) {
       quit(error);
     }

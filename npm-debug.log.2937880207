@@ -1,0 +1,30 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/francois/.nvm/versions/node/v6.9.2/bin/node',
+1 verbose cli   '/Users/francois/.nvm/versions/node/v6.9.2/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'bin' ]
+2 info using npm@3.10.9
+3 info using node@v6.9.2
+4 verbose run-script [ 'prebin', 'bin', 'postbin' ]
+5 info lifecycle reactors-cli@1.0.2~prebin: reactors-cli@1.0.2
+6 silly lifecycle reactors-cli@1.0.2~prebin: no script for prebin, continuing
+7 info lifecycle reactors-cli@1.0.2~bin: reactors-cli@1.0.2
+8 verbose lifecycle reactors-cli@1.0.2~bin: unsafe-perm in lifecycle true
+9 verbose lifecycle reactors-cli@1.0.2~bin: PATH: /Users/francois/.nvm/versions/node/v6.9.2/lib/node_modules/npm/bin/node-gyp-bin:/Users/francois/Dev/reactors-cli/node_modules/.bin:/Users/francois/.nvm/versions/node/v6.9.2/lib/node_modules/npm/bin/node-gyp-bin:/Users/francois/Dev/reactors-cli/node_modules/.bin:/Users/francois/.rvm/gems/ruby-2.3.1/bin:/Users/francois/.rvm/gems/ruby-2.3.1@global/bin:/Users/francois/.rvm/rubies/ruby-2.3.1/bin:/Users/francois/.nvm/versions/node/v6.9.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Users/francois/.rvm/bin:/Users/francois/.rvm/bin:/Users/francois/.yarn/bin
+10 verbose lifecycle reactors-cli@1.0.2~bin: CWD: /Users/francois/Dev/reactors-cli
+11 silly lifecycle reactors-cli@1.0.2~bin: Args: [ '-c', 'node dist/index-cli' ]
+12 verbose stack Error: write EPIPE
+12 verbose stack     at exports._errnoException (util.js:1022:11)
+12 verbose stack     at WriteWrap.afterWrite (net.js:801:14)
+13 verbose cwd /Users/francois/Dev/reactors-cli
+14 error Darwin 16.1.0
+15 error argv "/Users/francois/.nvm/versions/node/v6.9.2/bin/node" "/Users/francois/.nvm/versions/node/v6.9.2/bin/npm" "run" "bin"
+16 error node v6.9.2
+17 error npm  v3.10.9
+18 error code EPIPE
+19 error errno EPIPE
+20 error syscall write
+21 error write EPIPE
+22 error If you need help, you may report this error at:
+22 error     <https://github.com/npm/npm/issues>
+23 verbose exit [ 1, true ]
