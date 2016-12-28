@@ -17,7 +17,9 @@ import pkg from '../../package.json';
 export default function init(app: string, context: string): Promise<void> {
   const TEMPLATES = path.resolve(__dirname, '../../templates');
   const CONTAINER = context || process.cwd();
-  const APP = path.join(CONTAINER, app);
+  const PROJECT = path.join(CONTAINER, app);
+  const APP = path.join(PROJECT, 'app');
+  const DESKTOP = path.join(PROJECT, 'desktop');
 
   return new Promise(async (resolve, reject) => {
     try {
@@ -32,24 +34,24 @@ export default function init(app: string, context: string): Promise<void> {
         }
       );
 
-      await run(
-        'Create dist directory',
-        async () => await exec('mkdir dist', {cwd: APP}),
-      );
+      // await run(
+      //   'Create dist directory',
+      //   async () => await exec('mkdir dist', {cwd: PROJECT}),
+      // );
 
       await run(
         'Create README',
         async () => await transform(
           path.join(TEMPLATES, 'README.md'),
           transformTemplate.bind({app}),
-          path.join(APP, 'README.md'),
+          path.join(PROJECT, 'README.md'),
         ),
       );
 
       await run(
         'Create reactors.json',
         async () => await write(
-          path.join(APP, 'reactors.json'),
+          path.join(PROJECT, 'reactors.json'),
           JSON.stringify({
             name: app,
             version: pkg.version,
@@ -57,71 +59,31 @@ export default function init(app: string, context: string): Promise<void> {
         ),
       );
 
-      await run(
-        'Create desktop package.json',
-        async () => await write(
-          path.join(APP, 'package.json'),
-          JSON.stringify({
-            name: app,
-            version: '0.0.0',
-            scripts: {
-              babelDesktop: 'babel ' +
-                '--presets=react,electron ' +
-                '--out-dir desktop/dist ' +
-                'app',
-              babelDesktopWatch: 'babel ' +
-                '--watch ' +
-                '--presets=react,electron ' +
-                '--out-dir desktop/dist ' +
-                'app'
-            }
-          }, null, 2),
-        ),
-      );
-
-      await run(
-        'Init yarn',
-        async () => await exec('yarn init --yes', {cwd: APP}),
-      );
-
-      await run(
-        'Install app yarn',
-        async () => await exec(
-          'yarn add ' + [
-            'babel-cli',
-            'babel-preset-electron',
-            'babel-preset-react',
-            'react-dom',
-            'react',
-            'reactors',
-          ].join(' '),
-          {cwd: APP}
-        ),
-      );
-
       await initApp({
         APP,
+        PROJECT,
         TEMPLATES,
         app,
       });
 
       await initDesktop({
-        APP,
+        DESKTOP,
+        PROJECT,
         TEMPLATES,
         app,
       });
 
-      await initMobile({
-        APP,
-        TEMPLATES,
-        app,
-      });
-
-      await initWeb({
-        APP,
-        TEMPLATES,
-        app,
-      });
+      // await initMobile({
+      //   APP,
+      //   TEMPLATES,
+      //   app,
+      // });
+      //
+      // await initWeb({
+      //   APP,
+      //   TEMPLATES,
+      //   app,
+      // });
 
       resolve();
     } catch (error) {

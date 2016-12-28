@@ -9,30 +9,50 @@ import run from './microRun';
 import transformTemplate from './transformTemplate';
 
 export default function initDesktop({
-  APP,
+  DESKTOP,
+  PROJECT,
   TEMPLATES,
   app,
 }) {
   return new Promise(async (resolve, reject) => {
     try {
-      await run(
-        'Create desktop directory',
-        async () => await exec('mkdir desktop', {cwd: APP}),
-      );
+      // await run(
+      //   'Create desktop directory',
+      //   async () => await exec('mkdir desktop', {cwd: PROJECT}),
+      // );
+
+      // await run(
+      //   'Create desktop package.json',
+      //   async () => await write(
+      //     path.join(DESKTOP, 'package.json'),
+      //     JSON.stringify({
+      //       name: app,
+      //       version: '0.0.0',
+      //       main: 'main.js',
+      //     }, null, 2),
+      //   ),
+      // );
+
+      // await run(
+      //   'Init yarn',
+      //   async () => await exec('yarn init --yes', {cwd: DESKTOP}),
+      // );
+      //
+      // await run(
+      //   'Install app yarn',
+      //   async () => await exec(
+      //     'yarn add ' + [
+      //       'react-dom',
+      //     ].join(' '),
+      //     {cwd: DESKTOP},
+      //   ),
+      // );
 
       await run(
-        'Create desktop package.json',
-        async () => await write(
-          path.join(APP, 'desktop/package.json'),
-          JSON.stringify({name: app, version: '0.0.0'}, null, 2),
-        ),
-      );
-
-      await run(
-        'Create desktop entry point',
+        'Create electron main process file',
         async () => await copy(
           path.join(TEMPLATES, 'desktop/main.js'),
-          path.join(APP, 'desktop/main.js'),
+          path.join(PROJECT, 'index.desktop.mainProcess.js'),
         ),
       );
 
@@ -41,7 +61,7 @@ export default function initDesktop({
         async () => await transform(
           path.join(TEMPLATES, 'desktop/index.html'),
           transformTemplate.bind({app}),
-          path.join(APP, 'desktop/index.html'),
+          path.join(PROJECT, 'index.desktop.html'),
         ),
       );
 
@@ -49,7 +69,7 @@ export default function initDesktop({
         'Create desktop JS',
         async () => await copy(
           path.join(TEMPLATES, 'desktop/index.js'),
-          path.join(APP, 'desktop/index.js'),
+          path.join(PROJECT, 'index.desktop.js'),
         ),
       );
 

@@ -11,7 +11,7 @@ export default function exec (cmd, options = {}) {
         process.stdin.unpipe(ps.stdin);
         process.stdin.end();
         if (status === 0) {
-          return resolve();
+          return resolve(ps);
         }
         reject(new Error(`Got status ${status}`));
       });

@@ -1,6 +1,5 @@
 import path from 'path';
 import colors from 'colors';
-import packager from 'electron-packager';
 
 import exec from './util/exec';
 import init from './lib/init';
@@ -10,6 +9,7 @@ import upgrade from './lib/upgrade';
 import read from './util/read';
 import signAndroid from './util/signAndroid';
 
+import config from './config';
 import {name, version} from '../package.json';
 
 const [, , cmd, arg1] = process.argv;
@@ -20,8 +20,6 @@ function cwd(...dirs) {
 
 const PATH_TO_ANDROID = cwd('android');
 const PATH_TO_APKS = path.join(PATH_TO_ANDROID, 'app/build/outputs/apks');
-
-const ELECTRON_VERSION = '1.4.13';
 
 function quit(error) {
   console.log(colors.red.bold('Error'));
@@ -51,7 +49,7 @@ async function reactors() {
           'cp -r node_modules/ desktop/node_modules/',
           `electron-packager desktop lexouxou \
             --platform=darwin \
-            --version=${ELECTRON_VERSION}`,
+            --version=${config.ELECTRON_VERSION}`,
           'rm -rf desktop/node_modules',
         ];
         for (const cmd of cmds) {
@@ -92,7 +90,7 @@ async function reactors() {
       console.log();
 
       await init(app);
-      console.log('Your app is ready to be awesome');
+      console.log(config.INIT_OK_MSG);
     } catch (error) {
       quit(error);
     }
