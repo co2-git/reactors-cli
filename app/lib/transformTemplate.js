@@ -1,4 +1,9 @@
+import config from '../config';
+
 export default
 function transformTemplate(source: string): string {
-  return source.replace(/\{app\}/g, this.app);
+  for (const key in config) {
+    source = source.replace(new RegExp(`\{\{\{${key}\}\}\}`, 'g'), config[key]);
+  }
+  return source.replace(/\{\{\{APP\}\}\}/g, this.app);
 }

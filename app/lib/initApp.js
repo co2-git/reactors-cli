@@ -29,6 +29,7 @@ export default function initWeb({
             name: app,
             version: '0.0.0',
             scripts: {},
+            main: config.DESKTOP_MAIN_PROCESS_FILE,
           }, null, 2),
         ),
       );
@@ -38,13 +39,13 @@ export default function initWeb({
         async () => await exec('yarn init --yes', {cwd: PROJECT}),
       );
 
-      await run(
-        'Install app yarn dev',
-        async () => await exec(
-          `yarn add --dev ${config.APP_DEV_DEPS.join(' ')}`,
-          {cwd: PROJECT},
-        ),
-      );
+      // await run(
+      //   'Install app yarn dev',
+      //   async () => await exec(
+      //     `yarn add --dev ${config.APP_DEV_DEPS.join(' ')}`,
+      //     {cwd: PROJECT},
+      //   ),
+      // );
 
       await run(
         'Install app yarn',

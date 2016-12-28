@@ -46,7 +46,7 @@ export default class App extends Component {
 
     return (
       <View style={styles.view}>
-        <Text style={styles.h1}>{app}</Text>
+        <Text style={styles.h1}>{{{APP}}}</Text>
         <Text style={styles.text}>Welcome to your Reactors app</Text>
         <Text style={styles.text}>This app will work in:</Text>
         <ListView

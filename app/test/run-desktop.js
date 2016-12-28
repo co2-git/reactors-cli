@@ -37,7 +37,7 @@ const APP = 'RunReactorsDesktop';
 const CONTAINER = '/tmp';
 const PATH = path.join(CONTAINER, APP);
 
-describe.only('Run desktop', () => {
+describe('Run desktop', () => {
   describe('Init new app', () => {
     it('should init app', async function() {
       this.timeout(1000 * 60 * 5);

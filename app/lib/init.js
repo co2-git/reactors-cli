@@ -34,10 +34,15 @@ export default function init(app: string, context: string): Promise<void> {
         }
       );
 
-      // await run(
-      //   'Create dist directory',
-      //   async () => await exec('mkdir dist', {cwd: PROJECT}),
-      // );
+      await run(
+        'Create dist directory',
+        async () => await exec('mkdir dist', {cwd: PROJECT}),
+      );
+
+      await run(
+        'Create release directory',
+        async () => await exec('mkdir release', {cwd: PROJECT}),
+      );
 
       await run(
         'Create README',

@@ -1,11 +1,11 @@
 import path from 'path';
 import colors from 'colors';
 
-import exec from './util/exec';
 import init from './lib/init';
 import run from './lib/run';
 import upgrade from './lib/upgrade';
 
+import exec from './util/exec';
 import read from './util/read';
 import signAndroid from './util/signAndroid';
 
@@ -28,6 +28,12 @@ function quit(error) {
 }
 
 async function reactors() {
+  const {name: appName, version: appVersion} = JSON.parse(
+    await read(
+      path.join(process.cwd(), 'package.json'),
+    )
+  );
+
   switch (cmd) {
 
   case 'build': {
@@ -44,35 +50,13 @@ async function reactors() {
 
     case 'osx': {
       try {
-        const cmds = [
-          'npm run babelDesktop',
-          'cp -r node_modules/ desktop/node_modules/',
-          `electron-packager desktop lexouxou \
-            --platform=darwin \
-            --version=${config.ELECTRON_VERSION}`,
-          'rm -rf desktop/node_modules',
-        ];
-        for (const cmd of cmds) {
-          await exec(cmd);
-        }
-        // const options = {
-        //   dir: path.join(process.cwd(), 'desktop'),
-        //   arch: 'all',
-        //   version: '1.4.12',
-        //   name: 'mongodaemon',
-        //   out: path.join(process.cwd(), 'dist/osx'),
-        //   platform: 'darwin',
-        //   prune: false,
-        //   overwrite: true,
-        // };
-        // packager(options, async (err, appPaths) => {
-        //   if (err) {
-        //     return quit(err);
-        //   }
-        //   console.log(appPaths);
-        //   await exec('rm -rf desktop/node_modules');
-        //   exec(`open ${appPaths[0]}/mongodaemon.app`);
-        // });
+        console.log({appName});
+        await exec([
+          `electron-packager . ${appName}`,
+          '--platform=darwin',
+          `--version=${config.ELECTRON_VERSION}`,
+          `--out=${config.OSX_DIST.replace(/\{VERSION\}/g, appVersion)}`
+        ].join(' '));
       } catch (error) {
         quit(error);
       }
