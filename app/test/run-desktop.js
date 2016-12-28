@@ -4,6 +4,7 @@ import path from 'path';
 import should from 'should';
 import 'babel-polyfill';
 import fs from 'fs';
+import {Server as WebSocketServer} from 'ws';
 import exec from '../util/exec';
 import write from '../util/write';
 import read from '../util/read';
@@ -53,6 +54,8 @@ describe.only('Run desktop', () => {
   });
 
   describe('Run', () => {
+    let connected;
+
     it('should put new index', async () => {
       await exec('ls app', {cwd: path.join(PATH)});
       await write(
@@ -64,17 +67,35 @@ describe.only('Run desktop', () => {
       );
     });
 
+    it('should start a web socket server', () => {
+      const wss = new WebSocketServer({port: 8008});
+      wss.on('connection', () => {
+        connected = true;
+      });
+    });
+
     it('should launch run command', async function () {
       this.timeout(1000 * 60 * 5);
       return new Promise(async (resolve, reject) => {
         try {
           const binPath = path.resolve(__dirname, '../..', bin.reactors);
           exec(`node ${binPath} run desktop`, {cwd: PATH});
-          setTimeout(resolve, 99999);
+          setTimeout(resolve, 10000);
         } catch (error) {
           reject(error);
         }
       });
+    });
+
+    it('should have handshaked', function (done) {
+      this.timeout(3500);
+      setTimeout(() => {
+        if (connected) {
+          done();
+        } else {
+          done(new Error('Not connected'));
+        }
+      }, 2500);
     });
   });
 

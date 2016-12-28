@@ -14,7 +14,6 @@ export default function runDesktop() {
 --presets=${presets.join(',')} \
 --out-dir=dist-desktop \
 app`;
-      console.log({cmd});
       await exec(cmd);
       exec('electron index.desktop.mainProcess.js');
       resolve();
