@@ -50,6 +50,18 @@ export default function initDesktop({
           path.join(PROJECT, 'package.json'),
           (json) => {
             json.main = config.DESKTOP_MAIN_PROCESS_FILE;
+            if (!json.scripts) {
+              json.scripts = {};
+            }
+            json.scripts.babelDesktop = [
+              'babel',
+              '--no-babelrc',
+              `--presets=${config.DESKTOP_BABEL_PRESETS.join(',')}`,
+              `--out-dir=${config.DESKTOP_BABEL_OUT_DIR}`,
+              'app'
+            ].join(' ');
+            json.scripts.babelDesktopWatch = json.scripts.babelDesktop +
+              ' --watch';
           },
         ),
       );

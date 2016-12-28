@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import path from 'path';
 
 import exec from '../util/exec';
+import read from '../util/read';
 import transform from '../util/transform';
 import write from '../util/write';
 
@@ -24,7 +25,20 @@ export default function init(app: string, context: string): Promise<void> {
 
   return new Promise(async (resolve, reject) => {
     try {
-      await initMobile({CONTAINER, app});
+      await initMobile({CONTAINER, TEMPLATES, app});
+
+      await run(
+        'Update gitignore',
+        async () => {
+          const gitignore = await read(path.join(PROJECT, '.gitignore'));
+          await write(
+            path.join(PROJECT, '.gitignore'),
+            `${gitignore}
+releases/
+`
+          );
+        },
+      );
 
       await run(
         'Init yarn',
