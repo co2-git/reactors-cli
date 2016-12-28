@@ -1,6 +1,6 @@
 import path from 'path';
 
-import copy from '../util/copy';
+import changeJSON from '../util/changeJSON';
 import exec from '../util/exec';
 import transform from '../util/transform';
 import write from '../util/write';
@@ -41,6 +41,16 @@ export default function initDesktop({
           path.join(TEMPLATES, config.DESKTOP_RENDERER_FILE),
           transformTemplate.bind({app}),
           path.join(PROJECT, config.DESKTOP_RENDERER_FILE),
+        ),
+      );
+
+      await run(
+        'Update package.json',
+        async () => await changeJSON(
+          path.join(PROJECT, 'package.json'),
+          (json) => {
+            json.main = config.DESKTOP_MAIN_PROCESS_FILE;
+          },
         ),
       );
 

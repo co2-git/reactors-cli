@@ -56,7 +56,7 @@ async function reactors() {
           '--platform=darwin',
           `--version=${config.ELECTRON_VERSION}`,
           `--out=${config.OSX_DIST.replace(/\{VERSION\}/g, appVersion)}`
-        ].join(' '));
+        ].join(' '), {env: {...process.env, NODE_ENV: 'production'}});
       } catch (error) {
         quit(error);
       }

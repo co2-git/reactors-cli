@@ -16,7 +16,9 @@ function createWindow() {
   win.loadURL(`file://${__dirname}/{{{DESKTOP_HTML_FILE}}}`);
 
   // Open the DevTools.
-  win.webContents.openDevTools();
+  if (process.env.NODE_ENV !== 'production') {
+    win.webContents.openDevTools();
+  }
 
   // Emitted when the window is closed.
   win.on('closed', () => {

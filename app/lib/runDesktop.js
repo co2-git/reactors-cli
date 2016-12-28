@@ -8,6 +8,7 @@ export default function runDesktop() {
         (preset) => `babel-preset-${preset}`
       );
       const cmd = `babel \
+--no-babelrc \
 --presets=${presets.join(',')} \
 --out-dir=${config.DESKTOP_BABEL_OUT_DIR} \
 app`;

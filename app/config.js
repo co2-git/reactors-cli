@@ -16,10 +16,10 @@ export default {
     'react',
     'electron',
   ],
-  DESKTOP_BABEL_OUT_DIR: 'dist/desktop',
+  DESKTOP_BABEL_OUT_DIR: 'desktop',
   DESKTOP_MAIN_PROCESS_FILE: 'main.js',
   DESKTOP_HTML_FILE: 'index.desktop.html',
   DESKTOP_RENDERER_FILE: 'render.js',
-  REACT_APP_FILE: 'dist/desktop/App.js',
+  REACT_APP_FILE: 'desktop/App.js',
   OSX_DIST: 'release/{VERSION}/osx',
 };

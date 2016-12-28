@@ -8,11 +8,12 @@ import write from '../util/write';
 import initApp from './initApp';
 import initDesktop from './initDesktop';
 import initMobile from './initMobile';
-import initWeb from './initWeb';
+// import initWeb from './initWeb';
 import run from './microRun';
 import transformTemplate from './transformTemplate';
 
 import pkg from '../../package.json';
+import config from '../config';
 
 export default function init(app: string, context: string): Promise<void> {
   const TEMPLATES = path.resolve(__dirname, '../../templates');
@@ -23,25 +24,27 @@ export default function init(app: string, context: string): Promise<void> {
 
   return new Promise(async (resolve, reject) => {
     try {
-      await run(
-        'Create app directory',
-        async () => {
-          try {
-            await exec(`mkdir ${app}`, {cwd: CONTAINER});
-          } catch (error) {
-            throw new Error('Directory exists');
-          }
-        }
-      );
+      await initMobile({CONTAINER, app});
 
       await run(
-        'Create dist directory',
-        async () => await exec('mkdir dist', {cwd: PROJECT}),
+        'Init yarn',
+        async () => await exec('yarn init --yes', {cwd: PROJECT}),
       );
 
+      // await run(
+      //   'Install app yarn dev',
+      //   async () => await exec(
+      //     `yarn add --dev ${config.APP_DEV_DEPS.join(' ')}`,
+      //     {cwd: PROJECT},
+      //   ),
+      // );
+
       await run(
-        'Create release directory',
-        async () => await exec('mkdir release', {cwd: PROJECT}),
+        'Install app yarn',
+        async () => await exec(
+          `yarn add ${config.APP_DEPS.join(' ')}`,
+          {cwd: PROJECT},
+        ),
       );
 
       await run(
@@ -77,12 +80,6 @@ export default function init(app: string, context: string): Promise<void> {
         TEMPLATES,
         app,
       });
-
-      // await initMobile({
-      //   APP,
-      //   TEMPLATES,
-      //   app,
-      // });
       //
       // await initWeb({
       //   APP,

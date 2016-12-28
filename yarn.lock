@@ -2628,6 +2628,10 @@ rcedit@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/rcedit/-/rcedit-0.7.0.tgz#560b2920165034a135316e6a111f8274b9cec521"
 
+reactors-grid@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/reactors-grid/-/reactors-grid-1.4.2.tgz#7125f49600651e4a86447917cdd04d0af4ec7aa2"
+
 read-pkg-up@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-1.0.1.tgz#9d63c13276c065918d57f002a57f40a1b643fb02"
