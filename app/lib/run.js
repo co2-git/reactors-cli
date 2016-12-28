@@ -8,7 +8,7 @@ export default function run(platform) {
   switch (platform) {
   case 'android':
   case 'ios': {
-    exec(`react-native run-${platform}`, {cwd: process.cwd() + '/mobile/Timit'});
+    exec(`react-native run-${platform}`);
   }
     break;
 
