@@ -21,9 +21,9 @@ export default function signAndroid() {
 
       const appIsAlreadyStored = new RegExp(
         `${name.toUpperCase()}_RELEASE_STORE_FILE`
-      );
+      ).test(existingGradleProperties);
 
-      if (appIsAlreadyStored.test(existingGradleProperties)) {
+      if (appIsAlreadyStored) {
         console.log('App already signed in gradle properties - skipping');
       } else {
         const properties = `
