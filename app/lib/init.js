@@ -34,7 +34,10 @@ export default function init(app: string, context: string): Promise<void> {
           await write(
             path.join(PROJECT, '.gitignore'),
             `${gitignore}
+
+# Reactors
 release/
+desktop/
 `
           );
         },
