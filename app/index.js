@@ -55,6 +55,7 @@ async function reactors() {
           `electron-packager . ${appName}`,
           '--platform=darwin',
           `--version=${config.ELECTRON_VERSION}`,
+          `--icon=${path.join(process.env, 'assets/icons/icon')}`,
           `--out=${config.OSX_DIST.replace(/\{VERSION\}/g, appVersion)}`
         ].join(' '), {env: {...process.env, NODE_ENV: 'production'}});
       } catch (error) {
