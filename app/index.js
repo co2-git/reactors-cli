@@ -30,13 +30,11 @@ function quit(error) {
 function getInfoFromPackage() {
   return new Promise(async (resolve, reject) => {
     try {
-      const {name: appName, version: appVersion} = JSON.parse(
-        await read(
-          path.join(process.cwd(), 'package.json'),
-        )
-      );
-      return {appName, appVersion};
+      const parsed = await read(path.join(process.cwd(), 'package.json'));
+      const {name: appName, version: appVersion} = JSON.parse(parsed);
+      resolve({appName, appVersion});
     } catch (error) {
+      console.log(error.stack);
       reject(error);
     }
   });
@@ -59,7 +57,8 @@ async function reactors() {
 
     case 'osx': {
       try {
-        const {appName, appVersion} = getInfoFromPackage();
+        console.log('building for osx...');
+        const {appName, appVersion} = await getInfoFromPackage();
         console.log({appName});
         await exec([
           `electron-packager . ${appName}`,
