@@ -27,13 +27,22 @@ function quit(error) {
   process.exit(8);
 }
 
-async function reactors() {
-  const {name: appName, version: appVersion} = JSON.parse(
-    await read(
-      path.join(process.cwd(), 'package.json'),
-    )
-  );
+function getInfoFromPackage() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const {name: appName, version: appVersion} = JSON.parse(
+        await read(
+          path.join(process.cwd(), 'package.json'),
+        )
+      );
+      return {appName, appVersion};
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 
+async function reactors() {
   switch (cmd) {
 
   case 'build': {
@@ -50,12 +59,13 @@ async function reactors() {
 
     case 'osx': {
       try {
+        const {appName, appVersion} = getInfoFromPackage();
         console.log({appName});
         await exec([
           `electron-packager . ${appName}`,
           '--platform=darwin',
           `--version=${config.ELECTRON_VERSION}`,
-          `--icon=${path.join(process.env, 'assets/icons/icon')}`,
+          `--icon=${path.join(process.cwd(), 'assets/icons/icon')}`,
           `--out=${config.OSX_DIST.replace(/\{VERSION\}/g, appVersion)}`
         ].join(' '), {env: {...process.env, NODE_ENV: 'production'}});
       } catch (error) {
