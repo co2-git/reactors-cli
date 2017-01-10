@@ -25,7 +25,7 @@ export default function init(app: string, context: string): Promise<void> {
 
   return new Promise(async (resolve, reject) => {
     try {
-      await initMobile({CONTAINER, TEMPLATES, app});
+      await initMobile({CONTAINER, PROJECT, TEMPLATES, app});
 
       await run(
         'Update gitignore',
