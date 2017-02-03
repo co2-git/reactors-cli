@@ -9,7 +9,7 @@ import write from '../util/write';
 import initApp from './initApp';
 import initDesktop from './initDesktop';
 import initMobile from './initMobile';
-// import initWeb from './initWeb';
+import initWeb from './initWeb';
 import run from './microRun';
 import transformTemplate from './transformTemplate';
 
@@ -80,7 +80,8 @@ desktop/
           JSON.stringify({
             name: app,
             version: pkg.version,
-          }),
+            config,
+          }, null, 2),
         ),
       );
 
@@ -97,12 +98,13 @@ desktop/
         TEMPLATES,
         app,
       });
-      //
-      // await initWeb({
-      //   APP,
-      //   TEMPLATES,
-      //   app,
-      // });
+
+      await initWeb({
+        APP,
+        PROJECT,
+        TEMPLATES,
+        app,
+      });
 
       resolve();
     } catch (error) {

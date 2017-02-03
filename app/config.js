@@ -1,16 +1,25 @@
 export default {
   ELECTRON_VERSION: '1.4.13',
   INIT_OK_MSG: 'Your app is ready to be awesome',
+  APP_FILE: 'app/App.js',
   APP_DEV_DEPS: [
   ],
   APP_DEPS: [
     'babel-cli',
+    'babel-core',
+    'babel-loader',
+    'babel-plugin-syntax-flow',
     'babel-preset-electron',
+    'babel-preset-es2015',
     'babel-preset-react',
+    'babel-preset-stage-0',
     'flow-bin',
+    'ignore-loader',
     'react',
     'reactors',
     'react-dom',
+    'webpack',
+    'webpack-dev-server',
   ],
   DESKTOP_BABEL_PRESETS: [
     'react',
@@ -19,7 +28,19 @@ export default {
   DESKTOP_BABEL_OUT_DIR: 'desktop',
   DESKTOP_MAIN_PROCESS_FILE: 'main.js',
   DESKTOP_HTML_FILE: 'index.desktop.html',
-  DESKTOP_RENDERER_FILE: 'render.js',
-  REACT_APP_FILE: 'desktop/App.js',
+  DESKTOP_RENDERER_FILE: 'render-desktop.js',
+  DESKTOP_APP_FILE: 'desktop/App.js',
   OSX_DIST: 'release/{VERSION}/osx',
+  WEB_BABEL_PLUGINS: [
+    'syntax-flow',
+  ],
+  WEB_BABEL_PRESETS: [
+    'es2015',
+    'react',
+    'stage-0'
+  ],
+  WEB_BUNDLE_FILE: 'web/bundle.js',
+  WEB_HTML_FILE: 'index.web.html',
+  WEB_RENDER_FILE: 'render-web.js',
+  WEB_WEBPACK: 'webpack.config.js',
 };

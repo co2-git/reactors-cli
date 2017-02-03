@@ -1,14 +1,9 @@
-import path from 'path';
-
 import changeJSON from '../util/changeJSON';
-import exec from '../util/exec';
-import transform from '../util/transform';
-import write from '../util/write';
-
-import run from './microRun';
-import transformTemplate from './transformTemplate';
-
 import config from '../config';
+import path from 'path';
+import run from './microRun';
+import transform from '../util/transform';
+import transformTemplate from './transformTemplate';
 
 export default function initDesktop({
   PROJECT,
