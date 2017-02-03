@@ -5,6 +5,7 @@ import runWeb from './runWeb';
 
 export default function run(platform) {
   switch (platform) {
+
   case 'android':
   case 'ios': {
     exec(`react-native run-${platform}`);
@@ -21,7 +22,9 @@ export default function run(platform) {
   }
     break;
 
-  default:
+  default: {
     throw new Error('Unknown platform: ' + platform);
+  }
+
   }
 }
