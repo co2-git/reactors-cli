@@ -1,8 +1,26 @@
 /* globals document */
-const React = require('react');
-const ReactDOM = require('react-dom');
-const App = require('./{{{APP_FILE}}}');
+import {AppContainer} from 'react-hot-loader';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './app/App';
+
+const rootElement = document.getElementById('reactors');
+
 ReactDOM.render(
-  React.createElement(App.default, {}),
-  document.getElementById('reactors')
+  <AppContainer>
+    <App />
+  </AppContainer>,
+  rootElement
 );
+
+if (module.hot) {
+  module.hot.accept('./app/App', () => {
+    const NextApp = require('./app/App').default;
+    ReactDOM.render(
+      <AppContainer>
+         <NextApp />
+      </AppContainer>,
+      rootElement
+    );
+  });
+}

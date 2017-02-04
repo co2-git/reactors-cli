@@ -1,14 +1,37 @@
 const path = require('path');
+const webpack = require('webpack');
 const config = require('./reactors.json').config;
 
 module.exports = {
-  entry: {
-    app: [`./${config.WEB_RENDER_FILE}`],
-  },
+  devtool: 'eval',
+
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?' +
+      `https://localhost:${config.WEB_WEBPACK_DEV_SERVER_PORT}`,
+    'webpack/hot/only-dev-server',
+    `./${config.WEB_RENDER_FILE}`
+  ],
+
   output: {
-    path: path.resolve(__dirname, path.dirname(config.WEB_BUNDLE_FILE)),
-    filename: path.basename(config.WEB_BUNDLE_FILE),
+    path: path.join(__dirname, 'web'),
+    filename: 'bundle.js',
+    publicPath: '/web/'
   },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+
+  devServer: {
+    compress: true,
+    https: true,
+    historyApiFallback: true,
+    inline: false,
+    port: 3000,
+    hot: true
+  },
+
   module: {
     loaders: [
       {

@@ -13,35 +13,34 @@ export default class App extends Component {
     const platforms = [
       {
         title: 'Web',
-        image: 'https://developer.blackberry.com/html5/webroot/img/html5_40x40.png',
+        image: '../assets/HTML.png',
         link: 'https://www.w3.org/TR/html5/'
       },
       {
         title: 'iOS',
-        image: 'https://www.unifiedremote.com/content/logos/Apple.png',
+        image: '../assets/Apple.png',
         link: 'http://www.apple.com/ios/'
       },
       {
         title: 'Android',
-        image: 'http://www.killerpokies.com/images/android-list.png',
+        image: '../assets/Android.png',
         link: 'https://www.android.com/'
       },
       {
         title: 'Mac OSX',
-        image: 'http://www.mucommander.com/gfx/icon_osx.gif',
+        image: '../assets/OSX.png',
         link: 'http://www.apple.com/osx/',
       },
       {
         title: 'Linux',
-        image: 'https://www.yugma.com/images/linux.png',
+        image: '../assets/Linux.png',
         link: 'http://www.ubuntu.com/'
       },
       {
         title: 'Windows',
-        image: 'https://apps.education.ucsb.edu/w/images/thumb/a/a7/' +
-          'Windows_vista_icon.png/40px-Windows_vista_icon.png',
+        image: '../assets/Windows.png',
         link: 'http://www.microsoft.com/en-us/windows'
-      }
+      },
     ];
 
     return (
@@ -95,6 +94,10 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   view: {
-    marginTop: 42,
+    flex: 1,
+    flexDirection: 'column',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

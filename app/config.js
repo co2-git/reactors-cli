@@ -33,14 +33,16 @@ export default {
   OSX_DIST: 'release/{VERSION}/osx',
   WEB_BABEL_PLUGINS: [
     'syntax-flow',
+    'react-hot-loader/babel',
   ],
   WEB_BABEL_PRESETS: [
     'es2015',
     'react',
-    'stage-0'
+    'stage-0',
   ],
   WEB_BUNDLE_FILE: 'web/bundle.js',
-  WEB_HTML_FILE: 'index.web.html',
+  WEB_HTML_FILE: 'index.html',
   WEB_RENDER_FILE: 'render-web.js',
   WEB_WEBPACK: 'webpack.config.js',
+  WEB_WEBPACK_DEV_SERVER_PORT: 8900,
 };
