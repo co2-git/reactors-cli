@@ -18,6 +18,7 @@ export default {
     'react',
     'reactors',
     'react-dom',
+    'react-hot-loader@3.0.0-beta.1',
     'webpack',
     'webpack-dev-server',
   ],

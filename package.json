@@ -1,6 +1,6 @@
 {
   "name": "reactors-cli",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "Command line utility for reactors",
   "main": "dist/index.js",
   "scripts": {

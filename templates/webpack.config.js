@@ -28,7 +28,7 @@ module.exports = {
     https: true,
     historyApiFallback: true,
     inline: false,
-    port: 3000,
+    port: config.WEB_WEBPACK_DEV_SERVER_PORT,
     hot: true
   },
 

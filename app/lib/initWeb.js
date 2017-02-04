@@ -1,3 +1,4 @@
+import changeJSON from '../util/changeJSON';
 import config from '../config';
 import exec from '../util/exec';
 import path from 'path';
@@ -6,7 +7,6 @@ import transform from '../util/transform';
 import transformTemplate from './transformTemplate';
 
 export default function initWeb({
-  APP,
   PROJECT,
   TEMPLATES,
   app,
@@ -42,6 +42,19 @@ export default function initWeb({
           path.join(TEMPLATES, config.WEB_RENDER_FILE),
           transformTemplate.bind({app}),
           path.join(PROJECT, config.WEB_RENDER_FILE),
+        ),
+      );
+
+      await run(
+        'Update package.json',
+        async () => await changeJSON(
+          path.join(PROJECT, 'package.json'),
+          (json) => {
+            if (!json.scripts) {
+              json.scripts = {};
+            }
+            json.scripts.webDev = 'webpack-dev-server --progress --open';
+          },
         ),
       );
 
