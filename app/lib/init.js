@@ -1,8 +1,6 @@
 import 'babel-polyfill';
 import path from 'path';
-import {readdir} from 'fs';
 
-import copy from '../util/copy';
 import exec from '../util/exec';
 import read from '../util/read';
 import transform from '../util/transform';
@@ -92,20 +90,7 @@ desktop/
         async () => await new Promise(async (resolveAssets, rejectAssets) => {
           try {
             await exec('mkdir assets', {cwd: PROJECT});
-            readdir(path.resolve(TEMPLATES, 'assets'), async (error, files) => {
-              if (error) {
-                return rejectAssets(error);
-              }
-              await Promise.all(
-                files
-                  .filter((file) => /\.png$/.test(file))
-                  .map((file) => copy(
-                    path.resolve(TEMPLATES, 'assets', file),
-                    path.resolve(PROJECT, 'assets', file),
-                  )),
-              );
-              resolveAssets();
-            });
+            await exec(`cp ${TEMPLATES}/assets/*.png ${PROJECT}/assets`);
           } catch (error) {
             rejectAssets(error);
           }

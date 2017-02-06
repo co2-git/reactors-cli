@@ -5,7 +5,7 @@ export default function runDesktop() {
   return new Promise(async (resolve, reject) => {
     try {
       const presets = config.DESKTOP_BABEL_PRESETS.map(
-        (preset) => `babel-preset-${preset}`
+        (preset) => `babel-preset-${preset}`,
       );
       const cmd = `babel \
 --no-babelrc \

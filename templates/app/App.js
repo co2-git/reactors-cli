@@ -13,32 +13,26 @@ export default class App extends Component {
     const platforms = [
       {
         title: 'Web',
-        image: '../assets/HTML.png',
         link: 'https://www.w3.org/TR/html5/'
       },
       {
         title: 'iOS',
-        image: '../assets/Apple.png',
         link: 'http://www.apple.com/ios/'
       },
       {
         title: 'Android',
-        image: '../assets/Android.png',
         link: 'https://www.android.com/'
       },
       {
-        title: 'Mac OSX',
-        image: '../assets/OSX.png',
+        title: 'OSX',
         link: 'http://www.apple.com/osx/',
       },
       {
         title: 'Linux',
-        image: '../assets/Linux.png',
         link: 'http://www.ubuntu.com/'
       },
       {
         title: 'Windows',
-        image: '../assets/Windows.png',
         link: 'http://www.microsoft.com/en-us/windows'
       },
     ];
@@ -62,7 +56,10 @@ export default class App extends Component {
   _renderPlatform = (platform) => {
     return (
       <View style={styles.platformRow}>
-        <Image source={platform.image} style={styles.image} />
+        <Image
+          source={`../assets/${platform.image}.png`}
+          style={styles.image}
+          />
         <Link href={platform.link}>
           <Text style={styles.link}>{platform.title}</Text>
         </Link>

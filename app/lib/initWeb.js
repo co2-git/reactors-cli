@@ -53,7 +53,12 @@ export default function initWeb({
             if (!json.scripts) {
               json.scripts = {};
             }
-            json.scripts.webDev = 'webpack-dev-server --progress --open';
+            json.scripts.webDev = [
+              'webpack-dev-server',
+              '--progress',
+              '--open',
+              '--colors',
+            ].join(' ');
           },
         ),
       );
