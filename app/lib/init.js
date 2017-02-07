@@ -1,6 +1,8 @@
 import 'babel-polyfill';
 import path from 'path';
+import {createReadStream, createWriteStream, readdir} from 'fs';
 
+import copy from '../util/copy';
 import exec from '../util/exec';
 import read from '../util/read';
 import transform from '../util/transform';
@@ -48,14 +50,6 @@ desktop/
         async () => await exec('yarn init --yes', {cwd: PROJECT}),
       );
 
-      // await run(
-      //   'Install app yarn dev',
-      //   async () => await exec(
-      //     `yarn add --dev ${config.APP_DEV_DEPS.join(' ')}`,
-      //     {cwd: PROJECT},
-      //   ),
-      // );
-
       await run(
         'Install app yarn',
         async () => await exec(
@@ -90,7 +84,31 @@ desktop/
         async () => await new Promise(async (resolveAssets, rejectAssets) => {
           try {
             await exec('mkdir assets', {cwd: PROJECT});
-            await exec(`cp ${TEMPLATES}/assets/*.png ${PROJECT}/assets`);
+            readdir(path.resolve(TEMPLATES, 'assets'), async (error, files) => {
+              if (error) {
+                return rejectAssets(error);
+              }
+              await Promise.all(
+                files
+                  .filter((file) => /\.png$/.test(file))
+                  // .map((file) => copy(
+                  //   path.resolve(TEMPLATES, 'assets', file),
+                  //   path.resolve(PROJECT, 'assets', file),
+                  //   {defaultEncoding: 'binary'},
+                  // ))
+                  .map((file) => new Promise((resolveMapper) => {
+                    const reader = createReadStream(
+                      path.resolve(TEMPLATES, 'assets', file),
+                    );
+                    const writer = createWriteStream(
+                      path.resolve(PROJECT, 'assets', file),
+                    );
+                    reader.pipe(writer);
+                    reader.on('end', resolveMapper);
+                  })),
+              );
+              resolveAssets();
+            });
           } catch (error) {
             rejectAssets(error);
           }
