@@ -58,7 +58,7 @@ export default class App extends Component {
     return (
       <View style={styles.platformRow}>
         <Image
-          source={`../assets/${platform.image}.png`}
+          source={`../assets/${platform.title}.png`}
           style={styles.image}
           />
         <Link href={platform.link}>
