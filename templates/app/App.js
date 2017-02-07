@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Dimensions,
   Image,
   Link,
   ListView,
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     flexDirection: 'column',
-    display: 'flex',
+    height: Dimensions.get('window').height,
     justifyContent: 'center',
     alignItems: 'center',
   },
