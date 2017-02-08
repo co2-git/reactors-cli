@@ -1,7 +1,7 @@
 reactors-cli
 ===
 
-reactors command line interface
+[reactors](https://github.com/co2-git/reactors) command line interface
 
 # Install
 
