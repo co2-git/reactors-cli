@@ -6,12 +6,12 @@ const originalResolveFilename = Module._resolveFilename;
 // require binary files
 Module._resolveFilename = function(moduleName) {
   if (/\.(png|jpe?g)$/.test(moduleName)) {
-    const fileName = moduleName.replace(/\.\./, '.') + '.js';
+    const fileName = moduleName.replace(/^\.\./, '.') + '.js';
     // check if file exists
     try {
       fs.statSync(fileName);
     } catch (error) {
-      const contents = fs.readFileSync(moduleName);
+      const contents = fs.readFileSync(moduleName.replace(/^\.\./, '.'));
       fs.writeFileSync(
         fileName,
         'module.exports = "data:image/gif;base64,' +

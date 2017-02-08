@@ -52,7 +52,7 @@ module.exports = {
         loader: 'ignore-loader',
       },
       {
-        test: /\.(png|jpe?g)?/,
+        test: /\.(png|jpe?g)$/,
         loader: 'url-loader?limit=99999',
       },
     ],

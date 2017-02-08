@@ -8,33 +8,45 @@ import {
   Text,
   View,
 } from 'reactors';
+import Web from '../assets/Web.png';
+import iOS from '../assets/iOS.png';
+import Android from '../assets/Android.png';
+import OSX from '../assets/OSX.png';
+import Linux from '../assets/Linux.png';
+import Windows from '../assets/Windows.png';
 
 export default class App extends Component {
   render() {
     const platforms = [
       {
         title: 'Web',
-        link: 'https://www.w3.org/TR/html5/'
+        link: 'https://www.w3.org/TR/html5/',
+        image: Web,
       },
       {
         title: 'iOS',
-        link: 'http://www.apple.com/ios/'
+        link: 'http://www.apple.com/ios/',
+        image: iOS,
       },
       {
         title: 'Android',
-        link: 'https://www.android.com/'
+        link: 'https://www.android.com/',
+        image: Android,
       },
       {
         title: 'OSX',
         link: 'http://www.apple.com/osx/',
+        image: OSX,
       },
       {
         title: 'Linux',
-        link: 'http://www.ubuntu.com/'
+        link: 'http://www.ubuntu.com/',
+        image: Linux,
       },
       {
         title: 'Windows',
-        link: 'http://www.microsoft.com/en-us/windows'
+        link: 'http://www.microsoft.com/en-us/windows',
+        image: Windows,
       },
     ];
 
@@ -58,7 +70,7 @@ export default class App extends Component {
     return (
       <View style={styles.platformRow}>
         <Image
-          source={`../assets/${platform.title}.png`}
+          source={platform.image}
           style={styles.image}
           />
         <Link href={platform.link}>
