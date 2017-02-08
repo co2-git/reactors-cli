@@ -51,6 +51,10 @@ module.exports = {
         test: /node_modules\/react-native/,
         loader: 'ignore-loader',
       },
+      {
+        test: /\.(png|jpe?g)?/,
+        loader: 'url-loader?limit=99999',
+      },
     ],
   },
 };

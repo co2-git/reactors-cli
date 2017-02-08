@@ -5,8 +5,8 @@ const originalResolveFilename = Module._resolveFilename;
 
 // require binary files
 Module._resolveFilename = function(moduleName) {
-  if (/\.(png)$/.test(moduleName)) {
-    const fileName = moduleName + '.js';
+  if (/\.(png|jpe?g)$/.test(moduleName)) {
+    const fileName = moduleName.replace(/\.\./, '.') + '.js';
     // check if file exists
     try {
       fs.statSync(fileName);
