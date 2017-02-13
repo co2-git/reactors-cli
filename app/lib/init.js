@@ -2,7 +2,6 @@ import 'babel-polyfill';
 import path from 'path';
 import {createReadStream, createWriteStream, readdir} from 'fs';
 
-import copy from '../util/copy';
 import exec from '../util/exec';
 import read from '../util/read';
 import transform from '../util/transform';
@@ -40,6 +39,7 @@ export default function init(app: string, context: string): Promise<void> {
 # Reactors
 release/
 desktop/
+web/
 `
           );
         },
