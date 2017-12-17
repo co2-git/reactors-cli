@@ -61,7 +61,8 @@ async function reactors() {
         const {appName, appVersion} = await getInfoFromPackage();
         console.log({appName});
         await exec([
-          `electron-packager . ${appName}`,
+          `node_modules/.bin/electron-packager . ${appName}`,
+          `--electron-version=${config.ELECTRON_VERSION}`,
           '--platform=darwin',
           `--version=${config.ELECTRON_VERSION}`,
           `--icon=${path.join(process.cwd(), 'assets/icons/icon')}`,

@@ -1,5 +1,5 @@
 export default {
-  ELECTRON_VERSION: '1.4.13',
+  ELECTRON_VERSION: '1.7.9',
   INIT_OK_MSG: 'Your app is ready to be awesome',
   APP_FILE: 'app/App.js',
   APP_DEV_DEPS: [
