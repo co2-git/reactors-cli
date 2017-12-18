@@ -8,6 +8,7 @@ import upgrade from './lib/upgrade';
 import exec from './util/exec';
 import read from './util/read';
 import signAndroid from './util/signAndroid';
+import transform from './util/transform';
 
 import config from './config';
 import {name, version} from '../package.json';
@@ -59,15 +60,34 @@ async function reactors() {
       try {
         console.log('building for osx...');
         const {appName, appVersion} = await getInfoFromPackage();
-        console.log({appName});
+        await exec('rm -rf desktop');
+        await exec('yarn babelDesktop');
+        await exec('webpack --config webpack-desktop.config.js');
+        await exec('minify bundles/desktop.js');
+        await transform(
+          path.join(process.cwd(), config.DESKTOP_HTML_FILE),
+          source => source
+            .replace(
+              /require\('\.\/render-desktop\.js'\);/,
+              "require('./bundles/desktop.min.js');"
+            )
+        );
         await exec([
-          `node_modules/.bin/electron-packager . ${appName}`,
+          `electron-packager . ${appName}`,
           `--electron-version=${config.ELECTRON_VERSION}`,
           '--platform=darwin',
           `--version=${config.ELECTRON_VERSION}`,
           `--icon=${path.join(process.cwd(), 'assets/icons/icon')}`,
           `--out=${config.OSX_DIST.replace(/\{VERSION\}/g, appVersion)}`
         ].join(' '), {env: {...process.env, NODE_ENV: 'production'}});
+        await transform(
+          config.DESKTOP_HTML_FILE,
+          source => source
+            .replace(
+              /require\('\.\/bundles\/desktop\.min\.js'\);/,
+              "require('./render-desktop.js');"
+            )
+        );
       } catch (error) {
         quit(error);
       }

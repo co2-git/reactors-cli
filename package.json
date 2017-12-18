@@ -1,11 +1,11 @@
 {
   "name": "reactors-cli",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Command line utility for reactors",
   "main": "dist/index.js",
   "scripts": {
-    "babel": "babel --out-dir dist/ app",
-    "babel:watch": "babel --watch --out-dir dist/ app",
+    "babel": "rm -rf dist; babel --out-dir dist/ app",
+    "babel:watch": "rm -rf dist; babel --watch --out-dir dist/ app",
     "bin": "node dist/index-cli",
     "eslint": "eslint app",
     "test": "mocha dist/test/*"
