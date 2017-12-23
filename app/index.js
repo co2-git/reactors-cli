@@ -72,6 +72,17 @@ async function reactors() {
               "require('./bundles/desktop.min.js');"
             )
         );
+        const {dependencies} = JSON.parse(await read(
+          path.join(process.cwd(), 'package.json')
+        ));
+        await transform(
+          path.join(process.cwd(), 'package.json'),
+          source => {
+            const parsed = JSON.parse(source);
+            parsed.dependencies = {};
+            return JSON.stringify(parsed, null, 2);
+          }
+        );
         await exec([
           `electron-packager . ${appName}`,
           `--electron-version=${config.ELECTRON_VERSION}`,
@@ -87,6 +98,14 @@ async function reactors() {
               /require\('\.\/bundles\/desktop\.min\.js'\);/,
               "require('./render-desktop.js');"
             )
+        );
+        await transform(
+          path.join(process.cwd(), 'package.json'),
+          source => {
+            const parsed = JSON.parse(source);
+            parsed.dependencies = dependencies;
+            return JSON.stringify(parsed, null, 2);
+          }
         );
       } catch (error) {
         quit(error);
