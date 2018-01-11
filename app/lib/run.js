@@ -2,6 +2,7 @@ import exec from '../util/exec';
 
 import runDesktop from './runDesktop';
 import runWeb from './runWeb';
+import runPackager from './runPackager';
 
 export default function run(platform) {
   switch (platform) {
@@ -19,6 +20,11 @@ export default function run(platform) {
 
   case 'desktop': {
     setTimeout(runDesktop, 5000);
+  }
+    break;
+
+  case 'packager': {
+    setTimeout(runPackager, 5000);
   }
     break;
 

@@ -1,5 +1,6 @@
 import changeJSON from '../util/changeJSON';
 import config from '../config';
+import copy from '../util/copy';
 import path from 'path';
 import run from './microRun';
 import transform from '../util/transform';
@@ -40,6 +41,23 @@ export default function initDesktop({
       );
 
       await run(
+        'Create desktop JS dev',
+        async () => await transform(
+          path.join(TEMPLATES, config.DESKTOP_DEV_RENDERER_FILE),
+          transformTemplate.bind({app}),
+          path.join(PROJECT, config.DESKTOP_DEV_RENDERER_FILE),
+        ),
+      );
+
+      await run(
+        'Create desktop webpack config',
+        async () => await copy(
+          path.join(TEMPLATES, config.DESKTOP_WEBPACK),
+          path.join(PROJECT, config.DESKTOP_WEBPACK),
+        ),
+      );
+
+      await run(
         'Update package.json',
         async () => await changeJSON(
           path.join(PROJECT, 'package.json'),
@@ -48,15 +66,15 @@ export default function initDesktop({
             if (!json.scripts) {
               json.scripts = {};
             }
-            json.scripts.babelDesktop = [
+            json.scripts['babel:desktop'] = [
               'babel',
               '--no-babelrc',
               `--presets=${config.DESKTOP_BABEL_PRESETS.join(',')}`,
               `--out-dir=${config.DESKTOP_BABEL_OUT_DIR}`,
               'app'
             ].join(' ');
-            json.scripts.babelDesktopWatch = json.scripts.babelDesktop +
-              ' --watch';
+            json.scripts['babel:desktop:watch'] =
+              json.scripts['babel:desktop'] + ' --watch';
           },
         ),
       );

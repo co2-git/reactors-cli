@@ -16,29 +16,20 @@ export default function initMobile({CONTAINER, PROJECT, TEMPLATES, app}) {
         ),
       );
 
-      await run(
-        'Install RN Cli config',
-        async () => copy(
-          path.join(TEMPLATES, 'rn-cli.config.js'),
-          path.join(CONTAINER, app, 'rn-cli.config.js'),
-        ),
-      );
+      // await run(
+      //   'Install RN Cli config',
+      //   async () => copy(
+      //     path.join(TEMPLATES, 'rn-cli.config.js'),
+      //     path.join(CONTAINER, app, 'rn-cli.config.js'),
+      //   ),
+      // );
 
       await run(
-        'Update iOS index',
+        'Update index',
         async () => await transform(
           path.join(TEMPLATES, 'index.mobile.js'),
           transformTemplate.bind({app}),
-          path.join(PROJECT, 'index.ios.js'),
-        ),
-      );
-
-      await run(
-        'Update Android index',
-        async () => await transform(
-          path.join(TEMPLATES, 'index.mobile.js'),
-          transformTemplate.bind({app}),
-          path.join(PROJECT, 'index.android.js'),
+          path.join(PROJECT, 'index.js'),
         ),
       );
 

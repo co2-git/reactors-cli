@@ -83,30 +83,42 @@ async function reactors() {
             return JSON.stringify(parsed, null, 2);
           }
         );
-        await exec([
-          `electron-packager . ${appName}`,
-          `--electron-version=${config.ELECTRON_VERSION}`,
-          '--platform=darwin',
-          `--version=${config.ELECTRON_VERSION}`,
-          `--icon=${path.join(process.cwd(), 'assets/icons/icon')}`,
-          `--out=${config.OSX_DIST.replace(/\{VERSION\}/g, appVersion)}`
-        ].join(' '), {env: {...process.env, NODE_ENV: 'production'}});
-        await transform(
-          config.DESKTOP_HTML_FILE,
-          source => source
-            .replace(
-              /require\('\.\/bundles\/desktop\.min\.js'\);/,
-              "require('./render-desktop.js');"
-            )
-        );
-        await transform(
-          path.join(process.cwd(), 'package.json'),
-          source => {
-            const parsed = JSON.parse(source);
-            parsed.dependencies = dependencies;
-            return JSON.stringify(parsed, null, 2);
+        const revertChangedFiles = async () => {
+          try {
+            await transform(
+              config.DESKTOP_HTML_FILE,
+              source => source
+                .replace(
+                  /require\('\.\/bundles\/desktop\.min\.js'\);/,
+                  "require('./render-desktop.js');"
+                )
+            );
+            await transform(
+              path.join(process.cwd(), 'package.json'),
+              source => {
+                const parsed = JSON.parse(source);
+                parsed.dependencies = dependencies;
+                return JSON.stringify(parsed, null, 2);
+              }
+            );
+          } catch (error) {
+            throw error;
           }
-        );
+        };
+        try {
+          await exec([
+            `electron-packager . ${appName}`,
+            `--electron-version=${config.ELECTRON_VERSION}`,
+            '--platform=darwin',
+            `--version=${config.ELECTRON_VERSION}`,
+            `--icon=${path.join(process.cwd(), 'assets/icons/icon')}`,
+            `--out=${config.OSX_DIST.replace(/\{VERSION\}/g, appVersion)}`
+          ].join(' '), {env: {...process.env, NODE_ENV: 'production'}});
+        } catch (error) {
+          await revertChangedFiles();
+          throw error;
+        }
+        await revertChangedFiles();
       } catch (error) {
         quit(error);
       }
